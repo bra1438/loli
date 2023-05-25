@@ -4,3 +4,4 @@ pydeck==0.8.0
 streamlit==1.22.0
 plotly==5.14.1
 plotly-express==0.4.1
+sodapy==2.2.0

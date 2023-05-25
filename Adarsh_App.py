@@ -1,6 +1,5 @@
 '''
 @author: Snehan Kekre -- modified by Adarsh Kuthuru
-@source: https://github.com/Streamlit-Vehicle-Collisions-NYC
 '''
 
 import streamlit as st
@@ -9,8 +8,9 @@ import numpy as np
 import pydeck as pdk
 import plotly.express as px
 
+from sodapy import Socrata
+
 DATE_TIME = "date/time"
-DATA_PATH = r"C:\Users\adars\Downloads\Laptop\Drive\Programming_resources\Python\Streamlit App\Motor_Vehicle_Crashes_NYC.csv"
 
 st.title("Motor Vehicle Collisions in New York City")
 st.markdown("This application is a Streamlit dashboard that can be used "
@@ -18,19 +18,44 @@ st.markdown("This application is a Streamlit dashboard that can be used "
 
 
 @st.cache_data(persist=True)
-def load_data(nrows):
-    data = pd.read_csv(DATA_PATH, nrows=nrows, parse_dates=[['CRASH DATE', 'CRASH TIME']])
-    data.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
+def load_data(nrows) -> pd.DataFrame:
+    '''
+    This function imports data through SODA API and does some cleaning
+    '''
+    client = Socrata("data.cityofnewyork.us", None)
+    client.timeout = 1000
+    results = client.get("h9gi-nx95", limit=nrows)
+    data = pd.DataFrame.from_records(results)
+    return data
+
+def scrub_data(data):
+    '''
+    This function cleans the dataset before analyzing it
+    '''
+    # Parse Date and Time
+    data['crash_date'] = pd.to_datetime(data['crash_date']).dt.strftime('%Y-%m-%d') 
+    data['crash_time'] = pd.to_datetime(data['crash_time'], format='%H:%M').dt.time
+    data['crash_date_crash_time'] = pd.to_datetime(data['crash_date'].astype(str) + ' ' + data['crash_time'].astype(str), format = '%Y-%m-%d %H:%M:%S')
+
+    # Drop superfluous data and Rename Columns
+    data.dropna(subset=['latitude', 'longitude'], inplace=True)
     lowercase = lambda x: str(x).lower()
     data.rename(lowercase, axis="columns", inplace=True)
     data.columns = data.columns.str.replace(' ', '_')
     data.rename(columns={"crash_date_crash_time": "date/time"}, inplace=True)
-    # #data = data[['date/time', 'latitude', 'longitude']]
+
+    # Convert strings to numerical data
+    numeric_data = ['number_of_persons_injured', 'number_of_pedestrians_injured', 'number_of_cyclist_injured', 'number_of_motorist_injured']
+    data[numeric_data] = data[numeric_data].apply(pd.to_numeric, errors='coerce')
+    data['latitude'] = data['latitude'].astype(float)
+    data['longitude'] = data['longitude'].astype(float)
     return data
 
-data = load_data(10000)
 
-# st.write(data)
+data = load_data(100000)
+clean_data = scrub_data(data)
+st.write(clean_data)
+
 
 st.header("Where are the most people injured in NYC?")
 injured_people = st.slider("Number of persons injured in vehicle collisions", 0, 19)
@@ -64,6 +89,8 @@ st.write(pdk.Deck(
         ),
     ],
 ))
+
+
 if st.checkbox("Show raw data", False):
     st.subheader("Raw data by minute between %i:00 and %i:00" % (hour, (hour + 1) % 24))
     st.write(data)
