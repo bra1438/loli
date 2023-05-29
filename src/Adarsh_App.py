@@ -228,7 +228,7 @@ def gen_dashboard(nrows: int) -> None:
     rtype: None
     '''
 
-    st.set_page_config(layout = "wide", page_title='EDA - Adarsh Kuthuru')
+    st.set_page_config(page_title='EDA - Adarsh Kuthuru')
 
     st.title("Visualization and Exploratory Data Analysis (EDA) of Motor Vehicle Collisions in New York City, USA")
     st.markdown("This application is a Streamlit dashboard hosted on the Streamlit cloud server that can be used "
