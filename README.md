@@ -1,9 +1,9 @@
 # Motor-Vehicle-Collision-Analysis-with-Streamlit-App
 
 ## Summary of the code:
-This Python code repo is to create a Streamlit application that visualizes and performs exploratory data analysis (EDA) on motor vehicle collisions in New York City (NYC). 
+The objective of this Python code repo is to create a Streamlit application that visualizes and performs exploratory data analysis (EDA) on motor vehicle collisions in New York City (NYC). 
 
-**Dashboard**: [This is the link to the Streamlit app hosted on Streamlit cloud server](https://adarshkuthuru-streamlit-app-demo-adarsh-app-e3clwl.streamlit.app/)
+**Dashboard**: [This is the link to Streamlit app hosted on Streamlit cloud server](https://adarshkuthuru-streamlit-app-demo-adarsh-app-e3clwl.streamlit.app/)
 
 The code imports various dependencies such as Streamlit, pandas, numpy, pydeck, plotly.express, and sodapy. 
 
@@ -69,3 +69,6 @@ Additionally, the application generates histograms (`gen_chart_hist_by_min`) to 
 
 Overall, this application provides an interactive dashboard for exploring and analyzing motor vehicle collisions in NYC, helping users gain insights into the incidents and their spatial and temporal patterns.
 
+**References:**
+1. [Anar Abiyev's GitHub Repo](https://github.com/anarabiyev/EDA_Streamlit_App)
+2. [Snehan Kekre's GitHub Repo](https://github.com/snehankekre/Streamlit-Vehicle-Collisions-NYC)
