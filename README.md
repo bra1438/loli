@@ -3,7 +3,7 @@
 ## Summary of the code:
 The objective of this Python code repo is to create a Streamlit application that visualizes and performs exploratory data analysis (EDA) on motor vehicle collisions in New York City (NYC). 
 
-**Dashboard**: [This is the link to Streamlit app hosted on Streamlit cloud server](https://adarshkuthuru-streamlit-app-demo-adarsh-app-e3clwl.streamlit.app/)
+**Dashboard**: [This is the link to Streamlit app hosted on Streamlit cloud server](https://adarshkuthuru-motor-vehicle-collision-anal-srcadarsh-app-l1fegq.streamlit.app/)
 
 The code imports various dependencies such as Streamlit, pandas, numpy, pydeck, plotly.express, and sodapy. 
 
